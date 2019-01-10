@@ -14,36 +14,36 @@ function Square(props) {
 }
 
 class Board extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      squares: Array(9).fill(null),
-      isNext: true,
-    }
-  }
+  // constructor() {
+  //   super();
+  //   this.state = {
+  //     squares: Array(9).fill(null),
+  //     isNext: true,
+  //   }
+  // }
   renderSquare(i) {
-    return <Square value={this.state.squares[i]} onClick={() => this.handleCleck(i)} />;
+    return <Square value={this.props.squares[i]} onClick={() => this.props.onClick(i)} />;
   }
-
-  handleCleck(i) {
-    const squares = this.state.squares.slice();
-    if (calculateWinner(squares) || squares[i]){
-      return;
-    }
-    squares[i] = this.state.isNext ?  "○" :　"☓";
-    this.setState({
-      squares: squares,
-      isNext: !this.state.isNext,
-    });
-  }
+  //
+  // handleCleck(i) {
+  //   const squares = this.state.squares.slice();
+  //   if (calculateWinner(squares) || squares[i]){
+  //     return;
+  //   }
+  //   squares[i] = this.state.isNext ?  "○" :　"☓";
+  //   this.setState({
+  //     squares: squares,
+  //     isNext: !this.state.isNext,
+  //   });
+  // }
 
   render() {
-    const winner = calculateWinner(this.state.squares)
+    const winner = calculateWinner(this.props.squares)
     let status;
     if (winner) {
       status = "winer" + winner;
     } else {
-      status = "次は" + (this.state.isNext ?  "○" :　"☓") + "の番です";
+      status = "次は" + (this.props.isNext ?  "○" :　"☓") + "の番です";
     }
     return (
       <div>
@@ -69,11 +69,41 @@ class Board extends React.Component {
 }
 
 class Game extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      history: [{
+        squares: Array(9).fill(null)
+      }],
+      isNext: true
+    };
+  }
+
+
+
+  handleCleck(i) {
+    var history = this.state.history;
+    var current = history[history.length - 1];
+    const squares = this.state.squares.slice();
+    if (calculateWinner(squares) || squares[i]){
+      return;
+    }
+    squares[i] = this.state.isNext ?  "○" :　"☓";
+    this.setState({
+      squares: squares,
+      isNext: !this.state.isNext,
+    });
+  }
+
+
   render() {
     return (
       <div className="game">
         <div className="game-board">
-          <Board />
+          <Board
+              squares={ this.state.history[this.state.history.length - 1] }
+              onClick={(i)=> this.handleCleck(i)}
+            />
         </div>
         <div className="game-info">
           <div>{/* status */}</div>
