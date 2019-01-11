@@ -20,8 +20,9 @@
 ##応用
 - boardコンポーネントでhistory配列を作成しhandleClickでsuquaresを保存するように修正しましょう。
 - gameコンポーネントにstateでhistoryをもたせる
--
--
+- mapメソッドを使ってhistoryをレンダリングさせる
+- gameコンポーネントにstateでstepNumberをもたせる
+-　
 -
 -
 -
