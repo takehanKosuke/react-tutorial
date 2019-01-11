@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-// import App from './App';
-// import * as serviceWorker from './serviceWorker';
 
 
 function Square(props) {
@@ -13,24 +11,13 @@ function Square(props) {
   );
 }
 
-class Board extends React.Component {
+class Board extends Component {
   renderSquare(i) {
+    // console.log(this.props.value)
     return <Square value={this.props.squares[i]} onClick={() => this.props.onClick(i)} />;
   }
-  //
-  // handleCleck(i) {
-  //   const squares = this.state.squares.slice();
-  //   if (calculateWinner(squares) || squares[i]){
-  //     return;
-  //   }
-  //   squares[i] = this.state.isNext ?  "○" :　"☓";
-  //   this.setState({
-  //     squares: squares,
-  //     isNext: !this.state.isNext,
-  //   });
-  // }
-
   render() {
+    console.log(this.props.squares[1])//ここにあたいが来てないよ
     const winner = calculateWinner(this.props.squares)
     let status;
     if (winner) {
@@ -74,23 +61,23 @@ class Game extends React.Component {
 
 
 
-  handleCleck(i) {
+  handleClick(i) {
     var history = this.state.history;
     var current = history[history.length - 1];
-    // console.log(current)
+    // console.log(current.squares)
     // console.log(history)
-    // console.log(this.state.squares)
     const squares = current.squares.slice();
     if (calculateWinner(squares) || squares[i]){
       return;
     }
     squares[i] = this.state.isNext ?  "○" :　"☓";
     this.setState({
-      squares: squares,
+      history: history.concat([{
+        squares: squares
+      }]),
       isNext: !this.state.isNext,
     });
   }
-
 
   render() {
     return (
@@ -98,7 +85,7 @@ class Game extends React.Component {
         <div className="game-board">
           <Board
               squares={ this.state.history[this.state.history.length - 1] }
-              onClick={(i)=> this.handleCleck(i)}
+              onClick={(i) => this.handleClick(i)}
             />
         </div>
         <div className="game-info">
