@@ -9,4 +9,4 @@ function Square(props) {
   );
 }
 
-export default 'square';
+export { Square };

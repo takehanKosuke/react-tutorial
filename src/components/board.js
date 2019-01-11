@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import './index.css'
-import './components/square'
+import '../index.css'
+import { Square } from './square'
 
 class Board extends Component {
   renderSquare(i) {
@@ -8,16 +8,9 @@ class Board extends Component {
   }
 
   render() {
-    const winner = calculateWinner(this.props.squares)
-    let status;
-    if (winner) {
-      status = "winer" + winner;
-    } else {
-      status = "次は" + (this.props.isNext ?  "○" :　"☓") + "の番です";
-    }
     return (
       <div>
-        <div className="status">{status}</div>
+        <div className="status"></div>
         <div className="board-row">
           {this.renderSquare(0)}
           {this.renderSquare(1)}
@@ -38,4 +31,4 @@ class Board extends Component {
   }
 }
 
-export default Board
+export { Board };

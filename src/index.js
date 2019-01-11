@@ -1,51 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-
-
-function Square(props) {
-  return (
-    <button className="square" onClick={() => props.onClick()}>
-      {props.value}
-    </button>
-  );
-}
-
-class Board extends Component {
-  renderSquare(i) {
-    return <Square value={this.props.squares[i]} onClick={() => this.props.onClick(i)} />;
-  }
-
-  render() {
-    const winner = calculateWinner(this.props.squares)
-    let status;
-    if (winner) {
-      status = "winer" + winner;
-    } else {
-      status = "次は" + (this.props.isNext ?  "○" :　"☓") + "の番です";
-    }
-    return (
-      <div>
-        <div className="status">{status}</div>
-        <div className="board-row">
-          {this.renderSquare(0)}
-          {this.renderSquare(1)}
-          {this.renderSquare(2)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(3)}
-          {this.renderSquare(4)}
-          {this.renderSquare(5)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(6)}
-          {this.renderSquare(7)}
-          {this.renderSquare(8)}
-        </div>
-      </div>
-    );
-  }
-}
+import { Board } from './components/board'
 
 class Game extends React.Component {
   constructor() {
@@ -86,6 +42,15 @@ class Game extends React.Component {
   render() {
     const history = this.state.history;
     const current = history[this.state.stepNumber];
+
+    const winner = calculateWinner(current.squares)
+    let status;
+    if (winner) {
+      status = "winer" + winner;
+    } else {
+      status = "次は" + (this.state.isNext ?  "○" :　"☓") + "の番です";
+    }
+
     const moves = history.map((step, move) => {
       const desc = move ?
         'Move #' + move :
@@ -102,12 +67,11 @@ class Game extends React.Component {
         <div className="game-board">
           <Board
               squares={ current.squares }
-              isNext={ this.state.isNext }
               onClick={(i) => this.handleClick(i)}
             />
         </div>
         <div className="game-info">
-          <div>{/* status */}</div>
+          <div>{ status }</div>
           <ol>{ moves }</ol>
         </div>
       </div>
